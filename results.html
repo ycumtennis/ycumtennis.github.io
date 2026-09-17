@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RESULTS | 横浜市立大学医学部硬式テニス部 OBOG会</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.results-page{
+  --navy:#07192d;--navy2:#0b2b50;--gold:#c6a15b;--line:#dce2e8;
+  --muted:#697586;--paper:#f5f7fa;--win:#b18a3e;--loss:#7a8592;
+}
+.result-loading,.result-error{
+  padding:34px;border:1px solid var(--line);background:#fff;color:var(--muted);line-height:1.8
+}
+.result-error{border-left:4px solid #b66}
+.local-loader{display:none;margin-top:18px}
+.local-loader input{display:block;margin-top:10px}
+.results-intro{display:flex;justify-content:space-between;gap:28px;align-items:end;margin-bottom:28px}
+.results-intro p{max-width:620px;margin:0;color:var(--muted);line-height:1.8}
+.team-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:34px}
+.team-tab{
+  border:1px solid #cfd6de;background:#fff;color:var(--navy);padding:13px 22px;
+  font-size:12px;font-weight:800;letter-spacing:.14em;cursor:pointer;transition:.18s ease
+}
+.team-tab:hover,.team-tab.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.team-panel{display:none}.team-panel.active{display:block}
+.latest-result{
+  position:relative;overflow:hidden;
+  background:radial-gradient(circle at 78% 12%,rgba(45,105,154,.38),transparent 36%),
+             linear-gradient(120deg,#061426 0%,#0b2b50 62%,#123d5d 100%);
+  color:#fff;padding:36px 38px;min-height:360px;margin-bottom:56px;
+  display:grid;grid-template-columns:minmax(0,1.1fr) minmax(340px,.9fr);gap:34px
+}
+.latest-result::after{
+  content:"";position:absolute;width:420px;height:420px;border:1px solid rgba(255,255,255,.10);
+  transform:rotate(-17deg);right:-110px;top:-120px;pointer-events:none
+}
+.latest-left,.latest-right{position:relative;z-index:1;min-width:0}
+.latest-left{display:flex;flex-direction:column}
+.latest-top{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}
+.latest-meta{font-size:11px;letter-spacing:.17em;font-weight:800;color:#c5d2df}
+.result-badge{
+  display:inline-flex;align-items:center;justify-content:center;min-width:78px;height:32px;padding:0 15px;
+  font-size:11px;letter-spacing:.14em;font-weight:900;border:1px solid rgba(255,255,255,.34)
+}
+.result-badge.win{background:var(--gold);color:#081a33;border-color:var(--gold)}
+.result-badge.loss{background:rgba(255,255,255,.10);color:#fff}
+.result-badge.sus{background:rgba(255,255,255,.12);color:#fff}
+.latest-match{margin-top:48px}
+.latest-team{font-size:clamp(22px,3vw,38px);font-weight:800;letter-spacing:-.02em;line-height:1.25}
+.latest-score{display:flex;align-items:center;gap:14px;margin-top:26px;font-size:clamp(60px,8vw,105px);line-height:.9;font-weight:900;letter-spacing:-.06em}
+.latest-score .dash{font-size:.34em;opacity:.55;letter-spacing:0}
+.latest-opponent{margin-top:24px;font-size:clamp(18px,2.2vw,28px);font-weight:800;line-height:1.25}
+.latest-foot{margin-top:auto;padding-top:22px;border-top:1px solid rgba(255,255,255,.16);color:#b9c6d3;font-size:12px;line-height:1.6}
+.latest-right{display:flex;flex-direction:column}
+.latest-right .result-badge{align-self:flex-end;margin-bottom:18px}
+.latest-thumb{
+  position:relative;display:block;flex:1;min-height:235px;overflow:hidden;background:#0d2f4d;
+  border:1px solid rgba(255,255,255,.18);color:#fff;text-decoration:none
+}
+.latest-thumb img{width:100%;height:100%;position:absolute;inset:0;object-fit:cover;display:block}
+.latest-thumb-placeholder,.latest-thumb-overlay{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px
+}
+.latest-thumb-placeholder{background:linear-gradient(145deg,rgba(255,255,255,.05),rgba(255,255,255,0)),#0d2f4d}
+.latest-thumb-placeholder small{font-size:10px;letter-spacing:.13em;color:rgba(255,255,255,.58)}
+.latest-thumb-overlay{background:linear-gradient(180deg,rgba(5,18,34,.03),rgba(5,18,34,.50))}
+.play-mark{
+  width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.95);color:#07192d;font-size:21px;padding-left:3px;box-shadow:0 8px 24px rgba(0,0,0,.22)
+}
+.video-caption{font-size:10px;font-weight:900;letter-spacing:.15em}
+.result-section{margin-top:56px}
+.result-section-head{display:flex;justify-content:space-between;align-items:end;gap:20px;padding-bottom:18px;border-bottom:1px solid #cbd3dc;margin-bottom:22px}
+.result-section-head .eyeline{font-size:11px;color:var(--gold);font-weight:900;letter-spacing:.17em;margin-bottom:7px}
+.result-section-head h2{margin:0;font-size:clamp(28px,4vw,46px);letter-spacing:-.035em}
+.result-section-head .season{color:var(--muted);font-size:12px;letter-spacing:.12em}
+.official-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.official-card{
+  border:1px solid var(--line);background:#fff;padding:26px;min-height:240px;display:flex;flex-direction:column;transition:.18s ease
+}
+.official-card:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(7,25,45,.08)}
+.official-card-top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}
+.official-date{font-size:11px;color:var(--muted);letter-spacing:.12em}
+.official-type{font-size:10px;color:var(--gold);letter-spacing:.14em;font-weight:900}
+.official-opponent{margin:28px 0 8px;font-size:14px;color:var(--muted)}
+.official-versus{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:end}
+.official-name{font-size:22px;font-weight:800;line-height:1.35}
+.official-score{font-size:52px;line-height:1;font-weight:900;letter-spacing:-.05em}
+.official-card-foot{
+  margin-top:auto;padding-top:22px;border-top:1px solid #e4e8ed;
+  display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px
+}
+.small-result{font-size:11px;letter-spacing:.14em;font-weight:900}
+.small-result.win{color:var(--win)}.small-result.loss{color:var(--loss)}.small-result.sus{color:#9b7b3e}
+.full-result{font-size:10px;letter-spacing:.13em;font-weight:800;color:#34495e;text-decoration:none}
+.youtube-link{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:7px 10px;border:1px solid #cfd6de;
+  background:#fff;color:#07192d;text-decoration:none;font-size:8px;font-weight:900;letter-spacing:.10em;justify-self:center
+}
+.youtube-link:hover{background:#07192d;color:#fff;border-color:#07192d}
+.youtube-link svg{width:18px;height:18px;fill:currentColor}
+.month-block{display:grid;grid-template-columns:120px 1fr;border-top:1px solid var(--line)}
+.month-label{padding:24px 14px 24px 0}.month-label strong{display:block;font-size:26px;letter-spacing:-.03em}.month-label span{display:block;margin-top:4px;color:var(--muted);font-size:11px;letter-spacing:.13em}
+.practice-list{border-left:1px solid var(--line)}
+.practice-row{min-height:82px;display:grid;grid-template-columns:120px minmax(180px,1fr) 120px 86px 46px;gap:18px;align-items:center;padding:16px 20px;border-bottom:1px solid var(--line)}
+.practice-date{font-size:12px;color:var(--muted)}.practice-opponent{font-size:16px;font-weight:700}.practice-score{font-size:23px;font-weight:900;text-align:center}
+.practice-status{font-size:10px;letter-spacing:.14em;font-weight:900;text-align:right}.practice-status.win{color:var(--win)}.practice-status.loss{color:var(--loss)}.practice-status.sus{color:#9b7b3e}
+.practice-youtube{width:34px;height:28px;display:inline-flex;align-items:center;justify-content:center;justify-self:end;border:1px solid #cfd6de;background:#fff;color:#07192d;text-decoration:none}
+.practice-youtube:hover{background:#07192d;color:#fff;border-color:#07192d}.practice-youtube svg{width:18px;height:18px;fill:currentColor}
+.empty-state{border:1px solid var(--line);background:var(--paper);padding:32px;color:var(--muted);line-height:1.8}
+.year-switch{display:flex;align-items:center;gap:12px;margin-left:auto}
+.year-switch select{padding:10px 36px 10px 12px;border:1px solid #cfd6de;background:#fff;color:#07192d;font-weight:700}
+@media(max-width:900px){
+  .latest-result{grid-template-columns:1fr;min-height:auto}
+  .latest-thumb{min-height:220px}
+  .official-grid{grid-template-columns:1fr}
+  .month-block{grid-template-columns:1fr}
+  .practice-list{border-left:0}
+  .practice-row{grid-template-columns:90px minmax(150px,1fr) 86px 70px 40px;padding-left:0;padding-right:0}
+}
+@media(max-width:560px){
+  .results-intro{display:block}.year-switch{margin-top:18px}
+  .official-card-foot{grid-template-columns:auto 1fr auto;gap:8px}
+  .youtube-link span{display:none}.youtube-link{padding:6px 8px}
+  .practice-row{grid-template-columns:74px 1fr 62px 54px 36px;gap:8px 10px}
+}
+</style>
+</head>
+<body class="results-page">
+<header class="site-header scrolled">
+  <div class="container nav">
+    <a class="brand" href="index.html"><small>横浜市立大学</small><strong>医学部硬式テニス部 OBOG会</strong></a>
+    <button class="menu-toggle">☰</button>
+    <nav class="menu">
+      <a href="index.html">HOME</a><a href="about.html">ABOUT</a><a href="members.html">MEMBERS</a>
+      <a class="active" href="results.html">RESULTS</a><a href="schedule.html">SCHEDULE</a>
+      <a href="history.html">HISTORY</a><a href="contact.html">CONTACT</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="page-hero"><div class="container"><div class="kicker">COMPETITION</div><h1>RESULTS</h1><p>Excelの1シート目を更新すると、試合一覧と詳細ページに自動反映されます。</p></div></section>
+
+<section class="section"><div class="container">
+  <div class="results-intro">
+    <div><div class="kicker" id="seasonLabel">SEASON</div><h2 style="margin:0;font-size:clamp(36px,5vw,64px);letter-spacing:-.045em;">Match Archive</h2></div>
+    <div class="year-switch"><label for="yearSelect">YEAR</label><select id="yearSelect"></select></div>
+  </div>
+
+  <div id="status" class="result-loading">
+    試合結果を読み込んでいます…
+    <div class="local-loader" id="localLoader">
+      ローカルで確認している場合は、同じフォルダの <strong>results.xlsx</strong> を選択してください。
+      <input type="file" id="xlsxFile" accept=".xlsx,.xls">
+    </div>
+  </div>
+
+  <div id="resultsApp" hidden>
+    <div class="team-tabs" id="teamTabs"></div>
+    <div id="teamPanels"></div>
+  </div>
+</div></section>
+</main>
+
+<footer class="site-footer"><div class="container"><div class="copyright">© YOKOHAMA CITY UNIVERSITY MEDICAL TENNIS CLUB</div></div></footer>
+<script src="site.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script>
+const DATA_FILE = "results.xlsx";
+const teamOrder = ["MEN","WOMEN","NURSING"];
+const teamLabels = {MEN:"MEN", WOMEN:"WOMEN", NURSING:"NURSING"};
+
+function esc(v){
+  return String(v ?? "").replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+}
+function youtubeId(url){
+  if(!url) return "";
+  try{
+    const u = new URL(String(url).trim());
+    if(u.hostname === "youtu.be") return u.pathname.replace("/","").split("/")[0];
+    if(u.hostname.includes("youtube.com")){
+      if(u.pathname === "/watch") return u.searchParams.get("v") || "";
+      if(u.pathname.startsWith("/shorts/")) return u.pathname.split("/")[2] || "";
+      if(u.pathname.startsWith("/embed/")) return u.pathname.split("/")[2] || "";
+    }
+  }catch(e){}
+  return "";
+}
+function yIcon(withText=true){
+  return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.6 7.2a2.9 2.9 0 0 0-2-2C17.8 4.7 12 4.7 12 4.7s-5.8 0-7.6.5a2.9 2.9 0 0 0-2 2A30 30 0 0 0 2 12a30 30 0 0 0 .4 4.8 2.9 2.9 0 0 0 2 2c1.8.5 7.6.5 7.6.5s5.8 0 7.6-.5a2.9 2.9 0 0 0 2-2A30 30 0 0 0 22 12a30 30 0 0 0-.4-4.8ZM10 15.4V8.6l5.9 3.4L10 15.4Z"/></svg>${withText?'<span>HIGHLIGHTS</span>':''}`;
+}
+function excelDateToJS(v){
+  if(v instanceof Date && !isNaN(v)) return v;
+  if(typeof v === "number"){
+    const d = XLSX.SSF.parse_date_code(v);
+    return d ? new Date(d.y,d.m-1,d.d) : null;
+  }
+  const s = String(v ?? "").trim();
+  if(!s) return null;
+  const full = s.match(/(\d{4})[\/.-](\d{1,2})[\/.-](\d{1,2})/g);
+  if(full && full.length){
+    const p = full[full.length-1].match(/(\d{4})[\/.-](\d{1,2})[\/.-](\d{1,2})/);
+    return new Date(+p[1],+p[2]-1,+p[3]);
+  }
+  return null;
+}
+function displayDate(v){
+  if(v instanceof Date && !isNaN(v)) return `${v.getFullYear()}.${String(v.getMonth()+1).padStart(2,"0")}.${String(v.getDate()).padStart(2,"0")}`;
+  if(typeof v === "number"){
+    const d=excelDateToJS(v); return d?displayDate(d):String(v);
+  }
+  return String(v ?? "").replace(/\//g,".");
+}
+function displayShortDate(v){
+  const d=excelDateToJS(v);
+  if(d) return `${String(d.getMonth()+1).padStart(2,"0")}.${String(d.getDate()).padStart(2,"0")}`;
+  return String(v ?? "");
+}
+function resultClass(r){
+  r=String(r??"").toUpperCase();
+  if(r==="WIN") return "win"; if(r==="LOSS") return "loss"; return "sus";
+}
+function categoryType(c){
+  const s=String(c??"").toLowerCase();
+  if(s.includes("practice") || s.includes("練習")) return "practice";
+  if(s.includes("東医")) return "toitai";
+  return "league";
+}
+function catLabel(c){
+  const t=categoryType(c);
+  return t==="toitai" ? "東日本医科学生総合体育大会" : t==="practice" ? "練習試合" : (String(c||"").toLowerCase()==="league" ? "リーグ戦" : String(c||""));
+}
+function matchUrl(id){ return `match.html?id=${encodeURIComponent(id)}`; }
+
+function normalizeSummary(rows){
+  return rows.filter(r=>r.MatchID && r.Team).map(r=>({
+    id:String(r.MatchID).trim(),
+    team:String(r.Team).trim().toUpperCase(),
+    date:r.Date,
+    category:String(r.Category||"").trim(),
+    round:String(r.Round||"").trim(),
+    opponent:String(r.Opponent||"").trim(),
+    ycu:r.YCU ?? "",
+    opp:r.Opp ?? "",
+    result:String(r.Result||"").trim().toUpperCase(),
+    youtube:String(r.Youtube||r.YouTube||r.youtube||"").trim()
+  }));
+}
+
+function latestFor(matches){
+  return [...matches].sort((a,b)=>{
+    const da=excelDateToJS(a.date), db=excelDateToJS(b.date);
+    return (db?.getTime()||0)-(da?.getTime()||0);
+  })[0];
+}
+function latestCard(m){
+  const yt=youtubeId(m.youtube);
+  const thumb = yt ? `
+    <a class="latest-thumb" href="${esc(m.youtube)}" target="_blank" rel="noopener">
+      <img src="https://img.youtube.com/vi/${esc(yt)}/hqdefault.jpg" alt="最新試合ハイライト">
+      <div class="latest-thumb-overlay"><div class="play-mark">▶</div><div class="video-caption">WATCH HIGHLIGHTS →</div></div>
+    </a>` : `
+    <div class="latest-thumb">
+      <div class="latest-thumb-placeholder"><div class="play-mark">▶</div><div class="video-caption">HIGHLIGHT VIDEO</div><small>ExcelのYoutube列にURLを入力</small></div>
+    </div>`;
+  return `<article class="latest-result">
+    <div class="latest-left">
+      <div><div class="kicker" style="margin-bottom:7px;">LATEST RESULT</div>
+      <div class="latest-meta">${esc(m.team)} / ${esc(m.category)} / ${esc(displayDate(m.date))}</div></div>
+      <div class="latest-match">
+        <div class="latest-team">YOKOHAMA CITY<br>UNIVERSITY</div>
+        <div class="latest-score"><span>${esc(m.ycu)}</span><span class="dash">—</span><span>${esc(m.opp)}</span></div>
+        <div class="latest-opponent">${esc(m.opponent)}</div>
+      </div>
+      <div class="latest-foot"><a style="color:#fff;text-decoration:none;font-weight:800;letter-spacing:.12em" href="${matchUrl(m.id)}">FULL RESULT →</a></div>
+    </div>
+    <div class="latest-right">
+      <span class="result-badge ${resultClass(m.result)}">${esc(m.result)}</span>${thumb}
+    </div>
+  </article>`;
+}
+function officialCard(m){
+  const yt=m.youtube ? `<a class="youtube-link" href="${esc(m.youtube)}" target="_blank" rel="noopener">${yIcon(true)}</a>` : `<span></span>`;
+  return `<article class="official-card">
+    <div class="official-card-top"><span class="official-date">${esc(displayDate(m.date))}</span><span class="official-type">${esc(m.category)}</span></div>
+    <div class="official-opponent">${esc(m.round)} / VS ${esc(m.opponent)}</div>
+    <div class="official-versus"><div class="official-name">横浜市立大学</div><div class="official-score">${esc(m.ycu)}–${esc(m.opp)}</div></div>
+    <div class="official-card-foot">
+      <span class="small-result ${resultClass(m.result)}">${esc(m.result)}</span>
+      ${yt}
+      <a class="full-result" href="${matchUrl(m.id)}">FULL RESULT →</a>
+    </div>
+  </article>`;
+}
+function practiceSection(matches){
+  const byMonth={};
+  matches.forEach(m=>{
+    const d=excelDateToJS(m.date);
+    const key=d?`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`:"OTHER";
+    (byMonth[key] ||= []).push(m);
+  });
+  return Object.keys(byMonth).sort().reverse().map(key=>{
+    const first=byMonth[key][0], d=excelDateToJS(first.date);
+    const mon=d?d.toLocaleString("en-US",{month:"short"}).toUpperCase():"OTHER";
+    const year=d?d.getFullYear():"";
+    const rows=byMonth[key].map(m=>`<div class="practice-row">
+      <div class="practice-date">${esc(displayShortDate(m.date))}</div>
+      <div class="practice-opponent"><a href="${matchUrl(m.id)}" style="color:inherit;text-decoration:none">${esc(m.opponent)}</a></div>
+      <div class="practice-score">${esc(m.ycu)}–${esc(m.opp)}</div>
+      <div class="practice-status ${resultClass(m.result)}">${esc(m.result)}</div>
+      ${m.youtube?`<a class="practice-youtube" href="${esc(m.youtube)}" target="_blank" rel="noopener">${yIcon(false)}</a>`:"<span></span>"}
+    </div>`).join("");
+    return `<div class="month-block"><div class="month-label"><strong>${mon}</strong><span>${year}</span></div><div class="practice-list">${rows}</div></div>`;
+  }).join("");
+}
+function sectionHtml(matches, type){
+  if(!matches.length) return "";
+  const title= type==="league" ? "リーグ戦" : type==="toitai" ? "東日本医科学生総合体育大会" : "練習試合";
+  const eye= type==="practice" ? "PRACTICE MATCHES" : type==="toitai" ? "TO-I-TAI" : "OFFICIAL MATCHES";
+  const body=type==="practice" ? practiceSection(matches) : `<div class="official-grid">${matches.map(officialCard).join("")}</div>`;
+  return `<section class="result-section"><div class="result-section-head"><div><div class="eyeline">${eye}</div><h2>${title}</h2></div></div>${body}</section>`;
+}
+function render(data){
+  const years=[...new Set(data.map(m=>excelDateToJS(m.date)?.getFullYear()).filter(Boolean))].sort((a,b)=>b-a);
+  const select=document.getElementById("yearSelect");
+  select.innerHTML=years.map(y=>`<option value="${y}">${y}</option>`).join("");
+  const chosen=years[0]||new Date().getFullYear();
+  select.value=chosen;
+  select.onchange=()=>renderYear(data,+select.value);
+  renderYear(data,chosen);
+}
+function renderYear(data,year){
+  document.getElementById("seasonLabel").textContent=`${year} SEASON`;
+  const yearData=data.filter(m=>excelDateToJS(m.date)?.getFullYear()===year);
+  const teams=teamOrder.filter(t=>yearData.some(m=>m.team===t));
+  const tabs=document.getElementById("teamTabs"), panels=document.getElementById("teamPanels");
+  tabs.innerHTML=teams.map((t,i)=>`<button class="team-tab ${i===0?"active":""}" data-team="${t}">${teamLabels[t]}</button>`).join("");
+  panels.innerHTML=teams.map((t,i)=>{
+    const ms=yearData.filter(m=>m.team===t);
+    const latest=latestFor(ms);
+    const league=ms.filter(m=>categoryType(m.category)==="league");
+    const toi=ms.filter(m=>categoryType(m.category)==="toitai");
+    const practice=ms.filter(m=>categoryType(m.category)==="practice");
+    return `<div class="team-panel ${i===0?"active":""}" id="team-${t}">
+      ${latest?latestCard(latest):""}
+      ${sectionHtml(league,"league")}
+      ${sectionHtml(toi,"toitai")}
+      ${sectionHtml(practice,"practice")}
+    </div>`;
+  }).join("");
+  tabs.querySelectorAll(".team-tab").forEach(tab=>tab.onclick=()=>{
+    tabs.querySelectorAll(".team-tab").forEach(x=>x.classList.remove("active"));
+    panels.querySelectorAll(".team-panel").forEach(x=>x.classList.remove("active"));
+    tab.classList.add("active"); document.getElementById(`team-${tab.dataset.team}`).classList.add("active");
+  });
+  document.getElementById("status").hidden=true;
+  document.getElementById("resultsApp").hidden=false;
+}
+function processBuffer(buf){
+  const wb=XLSX.read(buf,{type:"array",cellDates:true});
+  const ws=wb.Sheets[wb.SheetNames[0]];
+  const rows=XLSX.utils.sheet_to_json(ws,{defval:""});
+  render(normalizeSummary(rows));
+}
+async function loadWorkbook(){
+  try{
+    const r=await fetch(DATA_FILE,{cache:"no-store"});
+    if(!r.ok) throw new Error("fetch failed");
+    processBuffer(await r.arrayBuffer());
+  }catch(e){
+    const status=document.getElementById("status");
+    status.innerHTML=`Excelを自動読込できませんでした。<div class="local-loader" style="display:block">ローカル確認の場合は <strong>results.xlsx</strong> を選択してください。<input type="file" id="xlsxFile2" accept=".xlsx,.xls"></div>`;
+    document.getElementById("xlsxFile2").addEventListener("change",async ev=>{
+      const f=ev.target.files[0]; if(f) processBuffer(await f.arrayBuffer());
+    });
+  }
+}
+loadWorkbook();
+</script>
+</body>
+</html>
