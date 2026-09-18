@@ -1,1 +1,491 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HISTORY | 横浜市立大学医学部硬式テニス部</title><link rel="stylesheet" href="style.css"></head><body><header class="site-header scrolled"><div class="container nav"><a class="brand" href="index.html"><small>横浜市立大学</small><strong>医学部硬式テニス部 OBOG会</strong></a><button class="menu-toggle">☰</button><nav class="menu"><a href="index.html">HOME</a><a href="about.html">ABOUT</a><a href="members.html">MEMBERS</a><a href="results.html">RESULTS</a><a href="schedule.html">SCHEDULE</a><a class="active" href="history.html">HISTORY</a><a href="contact.html">CONTACT</a></nav></div></header><main><section class="page-hero"><div class="container"><div class="kicker">SINCE 1955</div><h1>HISTORY</h1><p>創部から現在までの沿革、歴代部長・監督、主要戦績を残すページです。</p></div></section><section class="section"><div class="container"><div class="timeline"><div class="timeline-item"><b>1955</b><p>横浜市立大学医学部硬式テニス部 設立。</p></div><div class="timeline-item"><b>歴代</b><p>部長・監督・OB会長などの年表をここに掲載。</p></div><div class="timeline-item"><b>現在</b><p>写真、主要戦績、記念行事などを順次追加できます。</p></div></div><div class="notice">既存の歴代部長年表やOB資料を、このページに統合できます。</div></div></section></main><footer class="site-footer"><div class="container"><div class="copyright">© YOKOHAMA CITY UNIVERSITY MEDICAL TENNIS CLUB</div></div></footer><script src="site.js"></script></body></html>
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HISTORY | 横浜市立大学医学部硬式テニス部 OBOG会</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.history-page{
+  --navy:#07192d;
+  --navy2:#0d2d4d;
+  --gold:#c6a15b;
+  --paper:#f6f8fa;
+  --line:#dfe5eb;
+  --muted:#6e7986;
+  --text:#142033;
+}
+.history-page .history-lead{
+  max-width:760px;
+  color:#5f6b79;
+  line-height:1.9;
+  margin:10px 0 0;
+}
+.history-page .history-summary{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
+  margin:38px 0 62px;
+}
+.history-page .summary-card{
+  background:#fff;
+  border:1px solid var(--line);
+  padding:26px 24px;
+  min-height:145px;
+}
+.history-page .summary-card small{
+  display:block;
+  color:var(--gold);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.15em;
+  margin-bottom:18px;
+}
+.history-page .summary-card strong{
+  display:block;
+  font-size:30px;
+  line-height:1.15;
+  color:var(--navy);
+}
+.history-page .summary-card p{
+  margin:10px 0 0;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.7;
+}
+.history-page .history-block{
+  margin-top:70px;
+}
+.history-page .history-heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:24px;
+  border-bottom:1px solid #cfd7df;
+  padding-bottom:18px;
+  margin-bottom:28px;
+}
+.history-page .history-heading .eyebrow{
+  color:var(--gold);
+  font-size:10px;
+  letter-spacing:.16em;
+  font-weight:900;
+  margin-bottom:7px;
+}
+.history-page .history-heading h2{
+  margin:0;
+  color:var(--navy);
+  font-size:clamp(30px,4vw,48px);
+}
+.history-page .history-heading p{
+  margin:0;
+  max-width:430px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.7;
+}
+.history-page .leadership-grid{
+  display:grid;
+  grid-template-columns:1.4fr .8fr .8fr;
+  gap:18px;
+}
+.history-page .leadership-card{
+  border:1px solid var(--line);
+  background:#fff;
+  padding:28px;
+}
+.history-page .leadership-card h3{
+  margin:0 0 24px;
+  color:var(--navy);
+  font-size:20px;
+}
+.history-page .person-line{
+  position:relative;
+  padding:0 0 22px 24px;
+  border-left:1px solid #d8dee5;
+}
+.history-page .person-line:last-child{
+  padding-bottom:0;
+}
+.history-page .person-line::before{
+  content:"";
+  position:absolute;
+  width:8px;height:8px;
+  left:-4.5px;top:6px;
+  border-radius:50%;
+  background:var(--gold);
+}
+.history-page .person-line .name{
+  display:block;
+  color:var(--navy);
+  font-weight:800;
+  font-size:15px;
+}
+.history-page .person-line .term{
+  display:block;
+  margin-top:4px;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.6;
+}
+.history-page .person-line.current .name::after{
+  content:"CURRENT";
+  display:inline-block;
+  margin-left:8px;
+  padding:3px 6px;
+  vertical-align:2px;
+  background:var(--navy);
+  color:#fff;
+  font-size:8px;
+  letter-spacing:.11em;
+}
+.history-page .record-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:20px;
+}
+.history-page .record-panel{
+  border:1px solid var(--line);
+  background:#fff;
+  overflow:hidden;
+}
+.history-page .record-panel header{
+  background:var(--navy);
+  color:#fff;
+  padding:26px 26px 22px;
+}
+.history-page .record-panel header small{
+  color:#d6b876;
+  font-size:10px;
+  letter-spacing:.16em;
+  font-weight:900;
+}
+.history-page .record-panel header h3{
+  margin:6px 0 0;
+  font-size:26px;
+}
+.history-page .record-list{
+  padding:8px 26px 22px;
+}
+.history-page .record-row{
+  display:grid;
+  grid-template-columns:74px 1fr;
+  gap:16px;
+  padding:16px 0;
+  border-bottom:1px solid #e5e9ed;
+}
+.history-page .record-row:last-child{
+  border-bottom:0;
+}
+.history-page .record-year{
+  color:var(--gold);
+  font-weight:900;
+  font-size:13px;
+}
+.history-page .record-text{
+  color:#253244;
+  font-size:13px;
+  line-height:1.65;
+}
+.history-page .uncertain{
+  display:inline-block;
+  margin-left:6px;
+  color:#8a6a2c;
+  font-size:10px;
+  font-weight:800;
+}
+.history-page .history-note{
+  margin-top:24px;
+  padding:18px 20px;
+  background:#f2f4f6;
+  border-left:3px solid var(--gold);
+  color:#65717e;
+  font-size:11px;
+  line-height:1.8;
+}
+.history-page .chapter{
+  margin-top:72px;
+  background:linear-gradient(125deg,#061426 0%,#0b2a49 68%,#123d5d 100%);
+  color:#fff;
+  padding:42px 44px;
+  display:grid;
+  grid-template-columns:180px 1fr;
+  gap:32px;
+}
+.history-page .chapter .year{
+  color:#d4b36f;
+  font-size:48px;
+  font-weight:900;
+  letter-spacing:-.04em;
+}
+.history-page .chapter h3{
+  margin:0 0 10px;
+  font-size:27px;
+}
+.history-page .chapter p{
+  margin:0;
+  color:#c9d3dc;
+  line-height:1.9;
+  font-size:13px;
+}
+@media(max-width:980px){
+  .history-page .history-summary{grid-template-columns:repeat(2,1fr)}
+  .history-page .leadership-grid{grid-template-columns:1fr}
+  .history-page .record-grid{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .history-page .history-summary{grid-template-columns:1fr}
+  .history-page .history-heading{display:block}
+  .history-page .history-heading p{margin-top:12px}
+  .history-page .chapter{grid-template-columns:1fr;padding:32px 26px}
+  .history-page .chapter .year{font-size:40px}
+}
+
+.history-page .history-summary.foundation-only{
+  grid-template-columns:1fr;
+}
+.history-page .foundation-card{
+  min-height:auto;
+  padding:34px 36px;
+}
+.history-page .foundation-layout{
+  display:grid;
+  grid-template-columns:180px 1fr;
+  gap:34px;
+  align-items:center;
+}
+.history-page .foundation-card strong{
+  font-size:64px;
+  line-height:1;
+}
+.history-page .foundation-card h3{
+  margin:0;
+  color:var(--navy);
+  font-size:24px;
+}
+.history-page .foundation-card p{
+  margin-top:10px;
+  font-size:13px;
+}
+@media(max-width:640px){
+  .history-page .foundation-layout{
+    grid-template-columns:1fr;
+    gap:16px;
+  }
+  .history-page .foundation-card strong{
+    font-size:52px;
+  }
+}
+
+
+.history-page .leadership-grid.leadership-three{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  align-items:start;
+}
+.history-page .leadership-three .leadership-card{
+  height:auto;
+}
+@media(max-width:980px){
+  .history-page .leadership-grid.leadership-three{
+    grid-template-columns:1fr;
+  }
+}
+
+</style>
+</head>
+
+<body class="history-page">
+<header class="site-header scrolled">
+  <div class="container nav">
+    <a class="brand" href="index.html">
+      <small>横浜市立大学</small>
+      <strong>医学部硬式テニス部 OBOG会</strong>
+    </a>
+    <button class="menu-toggle">☰</button>
+    <nav class="menu">
+      <a href="index.html">HOME</a>
+      <a href="about.html">ABOUT</a>
+      <a href="members.html">MEMBERS</a>
+      <a href="results.html">RESULTS</a>
+      <a href="schedule.html">SCHEDULE</a>
+      <a class="active" href="history.html">HISTORY</a>
+      <a href="contact.html">CONTACT</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="page-hero">
+  <div class="container">
+    <div class="kicker">SINCE 1955</div>
+    <h1>HISTORY</h1>
+    <p>受け継がれてきた歴代の歩みと、各部門の主要戦績。</p>
+  </div>
+</section>
+
+<section class="section">
+<div class="container">
+
+  <div>
+    <div class="kicker">OUR LEGACY</div>
+    <h2 style="margin:5px 0 0;font-size:clamp(36px,5vw,64px);color:#07192d">Tradition in Motion.</h2>
+    <p class="history-lead">
+      創部以来、多くの先輩方が築いてきた歴史を受け継ぎながら、横浜市立大学医学部硬式テニス部は歩みを続けています。
+      ここでは、歴代の部長・監督・OBOG会長と、男子部・女子部・看護部の主要戦績を記録します。
+    </p>
+  </div>
+
+  <div class="history-summary foundation-only">
+    <div class="summary-card foundation-card">
+      <small>FOUNDATION</small>
+      <div class="foundation-layout">
+        <strong>1955</strong>
+        <div>
+          <h3>横浜市立大学医学部硬式テニス部 設立</h3>
+          <p>創部以来、受け継がれてきた歴史と伝統を次の世代へ。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="history-block">
+    <div class="history-heading">
+      <div>
+        <div class="eyebrow">LEADERSHIP</div>
+        <h2>歴代役員</h2>
+      </div>
+      <p>記録に残る歴代の部長・監督・OBOG会長を掲載しています。</p>
+    </div>
+
+    <div class="leadership-grid leadership-three">
+      <article class="leadership-card">
+        <h3>OBOG会長</h3>
+        <div class="person-line"><span class="name">井出 研</span><span class="term">～2017</span></div>
+        <div class="person-line current"><span class="name">今田 敏夫</span><span class="term">2017–現在</span></div>
+      </article>
+
+      <article class="leadership-card">
+        <h3>部長</h3>
+        <div class="person-line"><span class="name">福嶋 孝吉</span><span class="term">第一内科教授</span></div>
+        <div class="person-line"><span class="name">土屋 弘吉</span><span class="term">整形外科教授</span></div>
+        <div class="person-line"><span class="name">松井 謙吾</span><span class="term">放射線科教授 ／ ～1990</span></div>
+        <div class="person-line"><span class="name">小坂 憲司</span><span class="term">精神科教授 ／ 1991–2003</span></div>
+        <div class="person-line"><span class="name">今田 敏夫</span><span class="term">消化器外科教授 ／ 2003–2010</span></div>
+        <div class="person-line"><span class="name">古川 政樹</span><span class="term">医療情報部教授 ／ 2011–2015</span></div>
+        <div class="person-line"><span class="name">宮城 悦子</span><span class="term">がん総合医科学教授 ／ 2015–2026</span></div>
+        <div class="person-line current"><span class="name">米田 正人</span><span class="term">肝胆膵消化器病学教授 ／ 2026–現在</span></div>
+      </article>
+
+      <article class="leadership-card">
+        <h3>監督</h3>
+        <div class="person-line"><span class="name">鬼頭 文彦</span></div>
+        <div class="person-line"><span class="name">杉田 昭</span></div>
+        <div class="person-line"><span class="name">辰巳 健志</span><span class="term">～2026</span></div>
+        <div class="person-line current"><span class="name">都竹 伸哉</span><span class="term">2026–現在</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="history-block">
+    <div class="history-heading">
+      <div>
+        <div class="eyebrow">COMPETITIVE RECORD</div>
+        <h2>主要戦績</h2>
+      </div>
+      <p>リーグ戦・東医体・全医体を中心に、記録として確認できる主な成績を掲載しています。</p>
+    </div>
+
+    <div class="record-grid">
+
+      <article class="record-panel">
+        <header>
+          <small>MEN'S TEAM</small>
+          <h3>男子部</h3>
+        </header>
+        <div class="record-list">
+          <div class="record-row"><div class="record-year">1973頃</div><div class="record-text">4部制へ。4部降格</div></div>
+          <div class="record-row"><div class="record-year">1978</div><div class="record-text">5部制へ。5部B降格</div></div>
+          <div class="record-row"><div class="record-year">1987頃</div><div class="record-text">6部制へ。6部降格</div></div>
+          <div class="record-row"><div class="record-year">1990</div><div class="record-text">6部優勝、5部昇格</div></div>
+          <div class="record-row"><div class="record-year">1997</div><div class="record-text">5部優勝、4部昇格</div></div>
+          <div class="record-row"><div class="record-year">1998</div><div class="record-text">4部優勝、3部昇格</div></div>
+          <div class="record-row"><div class="record-year">2001</div><div class="record-text">3部優勝、2部昇格</div></div>
+          <div class="record-row"><div class="record-year">2002</div><div class="record-text">2部優勝、1部昇格／東医体3位／全医体優勝</div></div>
+          <div class="record-row"><div class="record-year">2004</div><div class="record-text">1部優勝／東医体優勝／全医体優勝</div></div>
+          <div class="record-row"><div class="record-year">2005</div><div class="record-text">全医体優勝</div></div>
+          <div class="record-row"><div class="record-year">2006</div><div class="record-text">全医体準優勝</div></div>
+          <div class="record-row"><div class="record-year">2013</div><div class="record-text">1部優勝</div></div>
+          <div class="record-row"><div class="record-year">2024</div><div class="record-text">1部最下位、2部降格</div></div>
+        </div>
+      </article>
+
+      <article class="record-panel">
+        <header>
+          <small>WOMEN'S TEAM</small>
+          <h3>女子部</h3>
+        </header>
+        <div class="record-list">
+          <div class="record-row"><div class="record-year">1980頃</div><div class="record-text">5部制へ。5Bへ降格</div></div>
+          <div class="record-row"><div class="record-year">1985頃</div><div class="record-text">5B優勝</div></div>
+          <div class="record-row"><div class="record-year">1987</div><div class="record-text">東医体準優勝</div></div>
+          <div class="record-row"><div class="record-year">1988頃</div><div class="record-text">4部昇格</div></div>
+          <div class="record-row"><div class="record-year">1989</div><div class="record-text">東医体優勝</div></div>
+          <div class="record-row"><div class="record-year">1985頃</div><div class="record-text">5部降格</div></div>
+          <div class="record-row"><div class="record-year">1995</div><div class="record-text">5部優勝、4部昇格</div></div>
+          <div class="record-row"><div class="record-year">1996</div><div class="record-text">4部優勝、3部昇格</div></div>
+          <div class="record-row"><div class="record-year">2007</div><div class="record-text">東医体3位</div></div>
+          <div class="record-row"><div class="record-year">2008</div><div class="record-text">3部優勝、2部昇格</div></div>
+          <div class="record-row"><div class="record-year">2009</div><div class="record-text">2部優勝、1部昇格</div></div>
+          <div class="record-row"><div class="record-year">2012</div><div class="record-text">1部5位、2部降格</div></div>
+          <div class="record-row"><div class="record-year">2015</div><div class="record-text">2部優勝、1部昇格／東医体優勝</div></div>
+          <div class="record-row"><div class="record-year">2016</div><div class="record-text">1部優勝／東医体優勝（2連覇）／全医体準優勝</div></div>
+          <div class="record-row"><div class="record-year">2017</div><div class="record-text">1部優勝／東医体優勝（3連覇）</div></div>
+          <div class="record-row"><div class="record-year">2018</div><div class="record-text">1部準優勝／東医体優勝（4連覇）</div></div>
+          <div class="record-row"><div class="record-year">2022</div><div class="record-text">1部交流戦優勝</div></div>
+        </div>
+      </article>
+
+      <article class="record-panel">
+        <header>
+          <small>NURSING TEAM</small>
+          <h3>看護部</h3>
+        </header>
+        <div class="record-list">
+          <div class="record-row"><div class="record-year">2006</div><div class="record-text">初出場</div></div>
+          <div class="record-row"><div class="record-year">2007</div><div class="record-text">7位</div></div>
+          <div class="record-row"><div class="record-year">2008</div><div class="record-text">6位</div></div>
+          <div class="record-row"><div class="record-year">2009</div><div class="record-text">6位</div></div>
+          <div class="record-row"><div class="record-year">2010</div><div class="record-text">優勝</div></div>
+          <div class="record-row"><div class="record-year">2011</div><div class="record-text">準優勝</div></div>
+          <div class="record-row"><div class="record-year">2014</div><div class="record-text">6位</div></div>
+          <div class="record-row"><div class="record-year">2015</div><div class="record-text">準優勝</div></div>
+          <div class="record-row"><div class="record-year">2016</div><div class="record-text">3位</div></div>
+          <div class="record-row"><div class="record-year">2017</div><div class="record-text">準優勝</div></div>
+          <div class="record-row"><div class="record-year">2018</div><div class="record-text">5位</div></div>
+          <div class="record-row"><div class="record-year">2019</div><div class="record-text">準優勝</div></div>
+          <div class="record-row"><div class="record-year">2023</div><div class="record-text">5位</div></div>
+          <div class="record-row"><div class="record-year">2024</div><div class="record-text">準優勝</div></div>
+          <div class="record-row"><div class="record-year">2025</div><div class="record-text">準優勝</div></div>
+          <div class="record-row"><div class="record-year">2026</div><div class="record-text">準優勝</div></div>
+        </div>
+      </article>
+
+    </div>
+
+
+    </div>
+  </section>
+
+
+</div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="copyright">© YOKOHAMA CITY UNIVERSITY MEDICAL TENNIS CLUB</div>
+  </div>
+</footer>
+<script src="site.js"></script>
+</body>
+</html>
