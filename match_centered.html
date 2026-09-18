@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MATCH RESULT | 横浜市立大学医学部硬式テニス部 OBOG会</title><link rel="stylesheet" href="style.css">
+<style>
+.match-page{--navy:#07192d;--gold:#c6a15b;--line:#dce2e8;--muted:#6b7785}.match-summary{background:linear-gradient(120deg,#061426,#0b2b50 68%,#123d5d);color:#fff;padding:40px;margin-bottom:38px}.meta{font-size:11px;color:#c6d2de;letter-spacing:.14em;font-weight:800}.board{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:28px;margin-top:38px}.side{font-size:clamp(20px,3vw,36px);font-weight:800}.side.away{text-align:right}.total{font-size:clamp(58px,8vw,100px);font-weight:900;letter-spacing:-.05em;white-space:nowrap}.total span{font-size:.34em;opacity:.55;margin:0 11px}.video{margin-top:25px}.video a{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;background:#fff;color:#07192d;text-decoration:none;font-size:10px;font-weight:900;letter-spacing:.1em}.detail{margin-top:36px}.detail h2{font-size:30px;margin:0 0 16px}.detail table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line)}.detail th,.detail td{padding:15px 13px;border-bottom:1px solid var(--line);text-align:left}.detail th{font-size:10px;letter-spacing:.1em;color:var(--muted);background:#f5f7fa}.pos{width:60px;font-weight:900}.rubber-result{width:64px;font-weight:900}.win{color:#aa8032}.loss{color:#788493}.sus{color:#9b7b3e}.empty{padding:28px;border:1px solid var(--line);background:#f7f9fb;color:var(--muted)}.obog-info{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:26px}.obog-info div{border:1px solid rgba(255,255,255,.18);padding:15px}.obog-info small{display:block;color:#bfcbd7;font-size:9px;letter-spacing:.12em;margin-bottom:5px}.obog-info strong{font-size:16px}.back{display:inline-block;margin-top:28px;color:#07192d;text-decoration:none;font-weight:900}@media(max-width:700px){.board{grid-template-columns:1fr}.side.away{text-align:left}.total{font-size:64px}.obog-info{grid-template-columns:1fr}.detail th,.detail td{padding:11px 8px;font-size:13px}}
+
+.detail table{
+  width:100%;
+  border-collapse:collapse;
+  background:#fff;
+}
+
+.detail th,
+.detail td{
+  padding:22px 18px;
+  border-bottom:1px solid #dce2e8;
+  text-align:center;
+  vertical-align:middle;
+  font-size:18px;
+}
+
+.detail th{
+  background:#f5f7fa;
+  color:#697586;
+  font-size:19px;
+  font-weight:800;
+  letter-spacing:.08em;
+}
+
+.detail td strong{
+  font-size:20px;
+  font-weight:800;
+}
+
+.detail td:first-child{
+  font-size:19px;
+  font-weight:800;
+}
+
+.detail td:nth-child(2){
+  font-size:18px;
+  font-weight:800;
+}
+
+.detail td:nth-child(3),
+.detail td:nth-child(5){
+  font-size:19px;
+}
+
+.detail td:nth-child(4){
+  font-size:20px;
+  font-weight:900;
+}
+
+</style></head>
+<body class="match-page">
+<header class="site-header scrolled"><div class="container nav"><a class="brand" href="index.html"><small>横浜市立大学</small><strong>医学部硬式テニス部 OBOG会</strong></a><button class="menu-toggle">☰</button><nav class="menu"><a href="index.html">HOME</a><a href="about.html">ABOUT</a><a href="members.html">MEMBERS</a><a class="active" href="results.html">RESULTS</a><a href="schedule.html">SCHEDULE</a><a href="history.html">HISTORY</a><a href="contact.html">CONTACT</a></nav></div></header>
+<main><section class="page-hero"><div class="container"><div class="kicker">FULL RESULT</div><h1>MATCH</h1><p>試合詳細</p></div></section><section class="section"><div class="container"><div id="app">読み込み中…</div></div></section></main>
+<footer class="site-footer"><div class="container"><div class="copyright">© YOKOHAMA CITY UNIVERSITY MEDICAL TENNIS CLUB</div></div></footer>
+<script src="site.js"></script><script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script>
+const DATA_FILE='results.xlsx';const id=new URLSearchParams(location.search).get('id');
+function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function parseDate(v){if(v instanceof Date&&!isNaN(v))return v;if(typeof v==='number'){const d=XLSX.SSF.parse_date_code(v);return d?new Date(d.y,d.m-1,d.d):null}const s=String(v??'');const m=s.match(/(\d{4})[\/.\-](\d{1,2})[\/.\-](\d{1,2})/);return m?new Date(+m[1],+m[2]-1,+m[3]):null}
+function displayDate(v){if(typeof v==='string'&&v.includes(','))return v;const d=parseDate(v);return d?`${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`:String(v??'')}
+function resultFromRaw(raw,score){const s=String(raw??'').trim();if(/[○〇]/.test(s))return'WIN';if(s.includes('●'))return'LOSS';if(String(score??'').toLowerCase().includes('sus')||!s)return String(score??'').toLowerCase().includes('sus')?'SUS':'';return s}
+function resultClass(x){return x==='WIN'?'win':x==='LOSS'?'loss':x==='SUS'?'sus':''}
+function courtInfo(matchId,round){const m=String(matchId).match(/^OB\d{4}-(\d+)-(\d+)$/);if(m)return{court:`第${Number(m[1])}コート`,match:`第${Number(m[2])}試合`};const x=String(round||'').split('-');return{court:x[0]?`第${x[0]}コート`:'',match:x[1]?`第${x[1]}試合`:''}}
+function detailTable(title,rows,m){if(!rows.length)return'';return `<section class="detail"><h2>${title}</h2><div style="overflow-x:auto"><table><thead><tr><th>POS.</th><th></th><th>${esc(m.Home)}</th><th>SCORE</th><th>${esc(m.Away)}</th></tr></thead><tbody>${rows.map(r=>`<tr><td class="pos">${esc(r.pos)}</td><td class="rubber-result ${resultClass(r.result)}">${esc(r.result)}</td><td>${esc(r.home)}</td><td><strong>${esc(r.score)}</strong></td><td>${esc(r.away)}</td></tr>`).join('')}</tbody></table></div></section>`}
+function render(m,detail){const video=m.Youtube?`<div class="video"><a href="${esc(m.Youtube)}" target="_blank" rel="noopener">▶ HIGHLIGHTS</a></div>`:'';let below='';let extra='';if(m.Team==='OBOG'){const ci=courtInfo(m.MatchID,m.Round);extra=`<div class="obog-info"><div><small>COURT</small><strong>${esc(ci.court)}</strong></div><div><small>MATCH</small><strong>${esc(ci.match)}</strong></div></div>`;below='<div class="empty">OBOG戦はこの1試合自体が詳細結果です。</div>'}else{const d=detail.filter(x=>x.pos.startsWith('D')),s=detail.filter(x=>x.pos.startsWith('S'));below=detail.length?detailTable('DOUBLES',d,m)+detailTable('SINGLES',s,m):'<div class="empty">詳細結果をExcel内で確認できませんでした。</div>'}app.innerHTML=`<article class="match-summary"><div class="meta">${esc(m.Category)} · ${esc(m.Round||'')} · ${esc(displayDate(m.Date))}</div><div class="board"><div class="side">${esc(m.Home)}</div><div class="total">${esc(m['Home score'])}<span>—</span>${esc(m['Away Score'])}</div><div class="side away">${esc(m.Away)}</div></div>${extra}${video}</article>${below}<a class="back" href="results.html">← RESULTSへ戻る</a>`}
+(async()=>{if(!id){app.textContent='MatchIDが指定されていません。';return}try{const res=await fetch(DATA_FILE,{cache:'no-store'});if(!res.ok)throw 0;const wb=XLSX.read(await res.arrayBuffer(),{type:'array',cellDates:true});const summary=XLSX.utils.sheet_to_json(wb.Sheets['Sheet1'],{defval:'',raw:true});
+const m=summary.find(x=>String(x.MatchID).trim()===String(id).trim());
+if(!m){app.textContent='該当するMatchIDがありません。';return}
+let detail=[];
+if(m.Team!=='OBOG'&&wb.Sheets['Rubbers']){
+  detail=XLSX.utils.sheet_to_json(wb.Sheets['Rubbers'],{defval:'',raw:true})
+    .filter(x=>String(x.MatchID).trim()===String(id).trim())
+    .sort((a,b)=>(Number(a.Order)||0)-(Number(b.Order)||0))
+    .map(x=>({
+      pos:String(x.Position||'').trim(),
+      result:String(x.Result||'').trim(),
+      home:String(x.HomePlayer||'').trim(),
+      score:String(x.Score||'').trim(),
+      away:String(x.AwayPlayer||'').trim()
+    }));
+}
+render(m,detail)}catch(e){app.textContent='results.xlsx を読み込めませんでした。'}})();
+</script></body></html>

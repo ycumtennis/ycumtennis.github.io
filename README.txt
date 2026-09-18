@@ -1,30 +1,19 @@
-GitHub投入用 RESULTS セット
+GitHub RESULTS 修正版
 
-同じ階層に置くファイル:
-- results.html
-- match.html
-- results.xlsx
+今回の修正:
+- results.xlsx に Rubbers シートを追加
+- match.html は MENS2026/WOMENS2026/NURSING2026 のセル位置を解析しません
+- FULL RESULT は Rubbers の MatchID を直接検索します
 
-既存の以下はそのまま使用:
-- style.css
-- site.js
-- index.html など
+これにより、詳細シートの左右配置や試合順に依存しません。
 
-運用方法:
-1. 元のExcelを更新する
-2. GitHubへ上げるときだけファイル名を results.xlsx にして上書きする
-3. results.html / match.html は通常変更不要
+GitHubで上書きする3ファイル:
+1. results.html
+2. match.html
+3. results.xlsx
 
-Excelの判定:
-Team: MEN / WOMEN / NURSING / OBOG
-Category: League / Toitai / Practice / Individual / OBOG
+style.css / site.js は変更不要です。
 
-詳細ページ:
-- MEN -> MENS2026
-- WOMEN -> WOMENS2026
-- NURSING -> NURSING2026
-各詳細シート内の MatchID を直接検索するので、試合の追加順や並べ替えに依存しません。
-
-OBOG:
-OB2026-02-02 = 第2コート・第2試合
-OBOG戦はSheet1のHome/Away/Home score/Away Scoreをそのまま表示します。
+今後Excelを更新するとき:
+- 通常の管理用シートを編集しただけでは Rubbers は自動生成されません。
+- 現在のサイト用 results.xlsx では Rubbers が詳細ページの参照元です。
